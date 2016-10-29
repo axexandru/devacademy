@@ -5,7 +5,7 @@ while [[ "$(date +"%T")" > '08:00:00' ]] && [[ "$(date +"%T")" < '17:00:00' ]]; 
 
         #vars:
         site='devacademy.ro'
-        pid='3427'
+        pid=`netstat -tlpn | grep httpd | grep :80 | awk '{print $7}' | cut -d'/' -f1`
 
         #Check for http status code
         curl -L -s -o /dev/null -w "%{http_code}" $site > /dev/null 2>&1
@@ -47,6 +47,6 @@ while [[ "$(date +"%T")" > '08:00:00' ]] && [[ "$(date +"%T")" < '17:00:00' ]]; 
                 echo "problem with httpd" | /usr/sbin/sendmail manager.admin@email.com
 	    fi
         fi
-        sleep 10
+        sleep 120
    done
 done
